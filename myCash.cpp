@@ -77,7 +77,13 @@ class Member{
 
         void printMember(){
             cout << "Phone: " << phone << "\n";
-            cout << "Name: " << name << "\n";
+            string _name = name;
+            for(int i = 0; i < _name.length(); i++){
+                if(_name[i] == '_'){
+                    _name[i] = ' ';
+                }
+            }
+            cout << "Name: " << _name << "\n";
             cout << "PIN: " << pin << "\n";
             cout << "Balance : " << balance << "\n";
             cout << "status : " << is_active << "\n";
@@ -97,16 +103,25 @@ class Member{
 
         void update(){
             char op;
-            cout << "Do you want to update name? :_ ";
+            cout << "Do you want to update name?(y/n) :_ ";
             cin >> op;
-            if( op == 'y'){
+            if( op == 'y' || op == 'Y'){
                 cout << "Name: ";
-                cin >> name;
+                // cin >> name;
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                getline(cin, name);
+                for(int i = 0; i < name.length(); i++){
+                    if(name[i] == ' '){
+                        name[i] = '_';
+                    }
+                }
+
+
                 cout << "Name successfully changed.\n";
             }
-            cout << "Do you want to update pin? :_ ";
+            cout << "Do you want to update pin?(y/n) :_ ";
             cin >> op;
-            if( op == 'y'){
+            if( op == 'y' || op == 'Y'){
                 string npin, npin2;
                 cout << "New pin: ";
                 cin >> npin;
@@ -339,7 +354,7 @@ void cashIn(){
     cout << "Are you sure(Y/N)?: ";
     char op;
     cin >> op;
-    if( op == 'Y'){
+    if( op == 'Y' || op == 'y'){
         users[current_user_idx].transaction(amount);
         hstry.set_history(users[current_user_idx].getPhone(), ++trnx_count, "Cash-In", to_string(amount),to_string(users[current_user_idx].getBalance()));
         cout << "Cash in Successful.\n";
@@ -360,7 +375,7 @@ void cashOut(){
     cout << "Are you sure(Y/N)? :";
     char op;
     cin >> op;
-    if( op == 'Y'){
+    if( op == 'Y' || op == 'y'){
         bool otp_verified = verifyOTP();
         if(otp_verified){
             if( amount > users[current_user_idx].getBalance()){
@@ -451,6 +466,11 @@ void Register(){
         cout << "Enter name: ";
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
         getline(cin, name);
+        for(int i = 0; i < name.length(); i++){
+            if(name[i] == ' '){
+                name[i] = '_';
+            }
+        }
         cout << "Enter pin: ";
         cin >> pin;
         cout << "Reconfirm pin: ";

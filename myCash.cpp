@@ -571,7 +571,6 @@ bool loginMenu(){
         string pin;
         cout << "Enter pin for account: " << phone << ":\n";
         cin >> pin;
-        cout << "user pin : " << users[idx].getPin() << "\n";
         if( pin == users[idx].getPin()){
             users[idx].logged_in = true;
             current_user_idx = idx;
